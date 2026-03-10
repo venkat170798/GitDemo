@@ -1,46 +1,24 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven3.9.9'
-        jdk 'JDK21'
-    }
-
     stages {
 
-        stage('Checkout Code') {
+        stage('SCM') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/YOUR_USERNAME/YOUR_REPO.git'
+                git branch: 'webhook-demo',
+                url: 'https://github.com/venkat170798/GitDemo.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                sh 'mvn clean package'
             }
         }
-
-        stage('Run Tests') {
+        stage('Done') {
             steps {
-                sh 'mvn test'
+                echo 'Completed pipeline'
             }
-        }
-
-        stage('Package') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-
-    }
-
-    post {
-        success {
-            echo 'Build Successful 🎉'
-        }
-        failure {
-            echo 'Build Failed ❌'
         }
     }
 }
